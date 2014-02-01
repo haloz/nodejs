@@ -1,8 +1,3 @@
-var ws = require("nodejs-websocket"),
-	wsOptions = {},
-	connections = [],
-	invalidConnections = {};
-
 function isEmptyObject(obj) {
     var name;
     for (name in obj) {
@@ -10,6 +5,14 @@ function isEmptyObject(obj) {
     }
     return true;
 }
+
+// Websockets
+
+var ws = require("nodejs-websocket"),
+	wsOptions = {},
+	connections = [],
+	invalidConnections = {};
+
 
 ws.createServer(wsOptions, function(conn) {
 	connections.push(conn);
@@ -49,3 +52,33 @@ ws.createServer(wsOptions, function(conn) {
 		// todo
 	});
 }).listen(8889);
+
+// HTTP/HTTPS Webserver
+
+var http = require("http"),
+	fs = require("fs"),
+	mime = require("mime"),
+	url = require("url");
+
+http.createServer(function httpServer(req, res) {
+	var pathName = url.parse(req.url).pathname;
+	if(pathName === '/') {
+		pathName = "index.html";
+	} else {
+		pathName = __dirname + pathName;
+	}
+	console.log("pathname", pathName);
+	fs.exists(pathName, function(exists) {
+		if(exists) {
+			res.writeHead(200, {
+				'Content-Type' : mime.lookup(pathName)
+			});
+			res.write(fs.readFileSync(pathName));
+			res.end();
+		}
+		else {
+			res.writeHead(404);
+			res.end();
+		}
+	});
+}).listen(8888);
