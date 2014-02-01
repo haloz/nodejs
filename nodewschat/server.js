@@ -9,40 +9,17 @@ function isEmptyObject(obj) {
 // Websockets
 
 var ws = require("nodejs-websocket"),
-	wsOptions = {},
-	connections = [],
-	invalidConnections = {};
-
+	wsOptions = {};
 
 ws.createServer(wsOptions, function(conn) {
-	connections.push(conn);
+	var connections = conn.server.connections;
 	console.log("num of connections:", connections.length);
 	
 	conn.on("text", function(msg) {
-		for(var i = 0, iLength = connections.length; i < iLength; i++ ) {
-			var thisConn = connections[i];	
-			console.log("send msg '" + msg + "' to connection no. " + i);
-			try {
-				thisConn.sendText(msg.toUpperCase());
-			} catch(ex) {
-				console.log("connection", i, "invalid");
-				invalidConnections[i] = true;
-			}
-		}
-
-		// cleanup invalid connections
-		console.log("invalidConnections", invalidConnections);
-		console.log("active connections", connections.length);
-		if(!isEmptyObject(invalidConnections)) {
-			var newConnections = []
-			for(var i = 0, iLength = connections.length; i < iLength; i++ ) {
-				if(!invalidConnections[i]) {
-					newConnections.push(connections[i]);
-				}
-			}
-			connections = newConnections;
-			console.log("updated active connections", connections.length);
-		}
+		connections.forEach(function(thisConn) {
+			console.log("send msg '" + msg + "' to connection no. " + thisConn.key);
+			thisConn.sendText(msg.toUpperCase());
+		});
 	});	
 	conn.on("error", function(err) {
 		console.log(err);
