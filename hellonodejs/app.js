@@ -1,10 +1,7 @@
-var http = require("http");
-var server = http.createServer(function(req, res) {
-	res.writeHead(200, {
-		"content-type" : "text/plain"
-	});
-	res.write("hallo");
-	setTimeout(function() {
-		res.end("welt");
-	}, 5000);
-}).listen(8080);
+var net = require("net");
+var server = net.createServer(function(socket) {
+	socket.write('hallo');
+	socket.write('welt!');
+	socket.write("\n");
+	socket.end();
+}).listen(3000);
