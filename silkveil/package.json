@@ -1,0 +1,8 @@
+{
+	"name" : "silkveil",
+	"version" : "0.0.1",
+	"description" : " : simple download website from example in the NodeJS book by Golo Roden",
+	"dependencies" : {
+		"semver" : ">= 2.2.1"
+	}
+}
