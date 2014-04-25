@@ -1,8 +1,9 @@
 {
 	"name" : "silkveil",
-	"version" : "0.0.1",
+	"version" : "0.0.4",
 	"description" : " : simple download website from example in the NodeJS book by Golo Roden",
 	"dependencies" : {
-		"semver" : ">= 2.2.1"
+		"semver" : ">= 2.2.1",
+		"moment" : ">= 1.6.2"
 	}
 }
