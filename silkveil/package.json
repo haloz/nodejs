@@ -4,6 +4,8 @@
 	"description" : " : simple download website from example in the NodeJS book by Golo Roden",
 	"dependencies" : {
 		"semver" : ">= 2.2.1",
-		"moment" : ">= 1.6.2"
+		"moment" : ">= 1.6.2",
+		"should" : ">= 3.3.1",
+		"node-assertthat" : ">= 0.0.8"
 	}
 }

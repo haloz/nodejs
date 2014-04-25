@@ -3,6 +3,7 @@ var moment = require("moment");
 var constraints = {
 	"validBefore" : function (datetime) {
 		var now = moment();
+		console.log("comp", "now", now.toString(), "datetime", datetime.toString(), "diff", now.diff(datetime));
 		return now.diff(datetime) <= 0;
 	},
 	"validFrom" : function (datetime) {
@@ -12,8 +13,7 @@ var constraints = {
 };
 
 var verify = function (mapping) {
-	console.log("mapping.constraints", mapping.constraints);
-	if(!mapping.constraints) {
+	if(!mapping || !mapping.constraints) {
 		console.log("--> no constraint");
 		return mapping;
 	}
