@@ -21,11 +21,19 @@ suite("when verify is called with a mapping", function() {
 				},
 				expected = mapping;
 			var actual = verify(mapping);
-			console.log("actual", actual, actual.constraints);
-			console.log("expected", expected, expected.constraints);
-			assert.that(actual, is.equalTo(expected));
+			assert.equal(actual, expected);
 		});	
-		test("and the given datetime is in the past undefined is returned.");
+		test("and the given datetime is in the past undefined is returned.", function() {
+			var mapping = {
+					"foo" : "bar",
+					"constraints" : {
+						"validBefore" : [ moment(Date.UTC.apply({}, [1999, 01, 01, 23, 59, 59]))]
+					}
+				},
+				expected = mapping;
+			var actual = verify(mapping);
+			assert.that(actual, is.equalTo(undefined));
+		});
 	});
 	suite("with a valid validFrom constraint", function() {
 		test("and the given datetime is in the future undefined is returned.");
