@@ -13,7 +13,7 @@ var mappings = {
 		"contentType" : "image/jpeg",
 		"forceDownload" : false,
 		"constraints" : {
-			"validFrom" : [ moment(Date.UTC.apply({}, [2014, 0, 1])) ],
+			"validFrom" : [ moment(Date.UTC.apply({}, [2014, 3, 26])) ],
 			"validBefore" : [ moment(Date.UTC.apply({}, [2014, 11, 31, 23, 59, 59])) ]
 		}
 	},

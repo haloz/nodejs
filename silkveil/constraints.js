@@ -12,10 +12,24 @@ var constraints = {
 };
 
 var verify = function (mapping) {
+	console.log("mapping.constraints", mapping.constraints);
 	if(!mapping.constraints) {
+		console.log("--> no constraint");
 		return mapping;
 	}
-	console.log("mapping.constraints", mapping.constraints);
+	console.log("--> constraint found");
+
+	for(var constraint in mapping.constraints) {
+		if(!mapping.constraints.hasOwnProperty(constraint)) {
+			continue;
+		}
+		if(constraints[constraint].apply(
+			{},
+			mapping.constraints[constraint]) === false) {
+			return undefined;
+		}
+	}
+	return mapping;
 };
 
 module.exports.verify = verify;
