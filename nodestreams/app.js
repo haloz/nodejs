@@ -3,9 +3,7 @@ var fs = require("fs"),
 	path = require("path");
 
 var server = http.createServer(function(req, res) {
-	fs.readFile(path.join(__dirname, req.url), function(err, data) {
-		res.write(data);
-		res.end();
-	});
+	var readableStream = fs.createReadStream(path.join(__dirname, req.url));
+	readableStream.pipe(res);
 });
 server.listen(8080);
