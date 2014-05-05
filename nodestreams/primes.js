@@ -15,7 +15,7 @@ var Readable = stream.Readable;
 
 var Primes = function(max, options) {
 	options = options || {};
-	options.objectMode = true;
+	//options.objectMode = true;
 	Readable.call(this, options); // basiskonstruktor 
 	this._max = max;
 	this._index = 2;
@@ -32,7 +32,12 @@ Primes.prototype._read = function() {
 		}
 		if(isPrime(this._index)) {
 			foundPrime = true;
-			this.push(this._index);
+			/*
+				Note: method 1: return floating point numbers, but then the app that uses the stream
+				has to convert the data e.g. into a string.
+				method 2: store stings of the numbers so we can directly use .pipe()
+			*/
+			this.push(this._index.toString());
 		}
 		this._index++;
 	} while (!foundPrime);
@@ -40,13 +45,6 @@ Primes.prototype._read = function() {
 
 // run
 var server = http.createServer(function(req, res) {
-	var primesStream = new Primes(100);
-	primesStream.on('data', function(data) {
-		//console.log(data);
-		//primesStream.pipe(res);
-		res.write(data.toString());
-	});
-	primesStream.on('end', function() {
-		res.end();
-	});
+	var primesStream = new Primes(1000);
+	primesStream.pipe(res);
 }).listen(8080);
