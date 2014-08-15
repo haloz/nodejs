@@ -18,11 +18,13 @@ var isPrime = function(n) {
 };
 
 var Readable = stream.Readable;
+var PassThrough = stream.PassThrough;
 var Transform = stream.Transform;
 
 var Primes = function(max, options) {
 	options = options || {};
 	options.objectMode = true;
+	// options.highWaterMark  = 16KB // Internal read buffer size, default 16KB
 	Readable.call(this, options); // basiskonstruktor 
 	this._max = max;
 	this._index = 2;
@@ -77,13 +79,30 @@ Stringifier.prototype._transform = function(chunk, encoding, callback) {
 
 
 
+/*
+	Logger
+	Logs the stream to the file system
+*/
+var Logger = function(options) {
+	PassThrough.call(this, options);
+};
+
+util.inherits(Logger, PassThrough);
+
+
+
 
 
 // run
 var server = http.createServer(function(req, res) {
 	var primesStream = new Primes(1000); 
 	var stringifyStream = new Stringifier(); 
+	var loggingStream = new Logger();
+	loggingStream.on('data', function(data) {
+		console.log('data:',data);
+	});
 	primesStream					// data source
 		.pipe(stringifyStream)		// float to string
+		.pipe(loggingStream)		// logging
 		.pipe(res);					// target
 }).listen(8080);
