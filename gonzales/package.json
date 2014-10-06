@@ -1,0 +1,9 @@
+{
+	"name" : "gonzales",
+	"version" : "0.0.1",
+	"description" : "SPDY fiddling project",
+	"dependencies" : {
+		"spdy" : ">= 1.25.0",
+		"mocha" : ">= 1.18.0"
+	}
+}
